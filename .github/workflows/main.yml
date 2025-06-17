@@ -1,0 +1,22 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: "0 2 * * *"  # Өдөр бүр УБ цагаар 10:00 орчим (UTC+8)
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Update activity log and commit
+        run: |
+          echo "$(date)" >> activity.log
+          git config user.name "Amgalanbaatar888"
+          git config user.email "amgaahero.gl@gmail.com"
+          git add activity.log
+          git commit -m "Daily commit $(date)" || echo "No changes to commit"
+          git push
